@@ -44,23 +44,23 @@
               {% render block %}
             {%- when 'subtotal' -%}
               <div class="js-contents" {{ block.shopify_attributes }}>
+                <div class="totals">
+                  <h2 class="totals__subtotal">{{ 'sections.cart.subtotal' | t }}</h2>
+                  <p class="totals__subtotal-value docapp-sync-subtotal"> {% if cart.original_total_price != cart.total_price %}<s>{{ cart.original_total_price | money }}</s> {% endif %}  {{ cart.total_price | money }}</p>
+                </div>
+
                 <div>
                   {%- if cart.cart_level_discount_applications.size > 0 -%}
-                    <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">
+                    <ul class="discounts list-unstyled docapp-replaces" role="list" aria-label="{{ 'customer.order.discount' | t }}">
                       {%- for discount in cart.cart_level_discount_applications -%}
                         <li class="discounts__discount discounts__discount--position">
                           {%- render 'icon-discount' -%}
-                          {{ discount.title | escape }}
+                          {{ discount.title }}
                           (-{{ discount.total_allocated_amount | money }})
                         </li>
                       {%- endfor -%}
                     </ul>
                   {%- endif -%}
-                </div>
-
-                <div class="totals">
-                  <h2 class="totals__total">{{ 'sections.cart.estimated_total' | t }}</h2>
-                  <p class="totals__total-value">{{ cart.total_price | money_with_currency }}</p>
                 </div>
 
                 <small class="tax-note caption-large rte">
